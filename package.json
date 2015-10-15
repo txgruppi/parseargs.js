@@ -1,7 +1,7 @@
 {
   "name": "parseargs.js",
   "version": "1.0.0",
-  "description": "An string argument parser that understands quotes and backslashes",
+  "description": "A string argument parser that understands quotes and backslashes",
   "main": "index.js",
   "scripts": {
     "test": "mocha",
