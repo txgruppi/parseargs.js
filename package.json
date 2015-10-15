@@ -1,0 +1,36 @@
+{
+  "name": "parseargs.js",
+  "version": "1.0.0",
+  "description": "An string argument parser that understands quotes and backslashes",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "cov": "mocha --require blanket --reporter html-cov"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/txgruppi/parseargs.js.git"
+  },
+  "keywords": [
+    "argument",
+    "parser",
+    "string"
+  ],
+  "author": "Tarcisio Gruppi <txgruppi@gmail.com> (http://txgruppi.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/txgruppi/parseargs.js/issues"
+  },
+  "homepage": "https://github.com/txgruppi/parseargs.js#readme",
+  "devDependencies": {
+    "blanket": "^1.1.7",
+    "chai": "^3.3.0",
+    "mocha": "^2.3.3"
+  },
+  "config": {
+    "blanket": {
+      "pattern": [ "." ],
+      "data-cover-never": [ "node_modules", "test" ]
+    }
+  }
+}
