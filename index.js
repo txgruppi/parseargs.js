@@ -19,21 +19,25 @@ module.exports = function(input) {
   var result = Array.prototype.reduce.call(
     input.trim(),
     function(result, value, index, arr) {
-      if (reading && startChar === ' ' && special(value) && !sp(value)) {
+      if (reading && startChar === ' ' && special(value) && !isWhitespace(value)) {
         throw new Error("Invalid argument(s)");
       }
 
-      if (!reading && !special(value)) {
+      if (! (reading || special(value))) {
         reading = true;
         startChar = ' ';
         startIndex = index;
+
         if (index === arr.length - 1 && startChar === ' ') {
-          return result.concat([read(startIndex)]);
+          return result.concat([
+            read(startIndex)
+          ]);
         }
+
         return result;
       }
 
-      if (!reading && special(value) && !sp(value)) {
+      if (!reading && special(value) && !isWhitespace(value)) {
         reading = true;
         startChar = value;
         startIndex = index;
@@ -44,19 +48,24 @@ module.exports = function(input) {
         return result;
       }
 
-      if (startChar === ' ' && sp(value)) {
+      if (startChar === ' ' && isWhitespace(value)) {
         if (!isValid(index, arr)) {
           throw new Error("Invalid syntax");
         }
+
         return result.concat([read(startIndex, index)]);
       }
 
       if (startChar === value && special(startChar) && isValid(index, arr)) {
-        return result.concat([read(startIndex + 1, index)]);
+        return result.concat([
+          read(startIndex + 1, index)
+        ]);
       }
 
       if (index === arr.length - 1 && startChar === ' ') {
-        return result.concat([read(startIndex)]);
+        return result.concat([
+          read(startIndex)
+        ]);
       }
 
       return result;
@@ -65,15 +74,15 @@ module.exports = function(input) {
   );
 
   if (startIndex || startChar) {
-    throw new Error("Unexpected end of input");
+    throw new Error('Unexpected end of input');
   }
 
-  return result.map(function(str){
+  return result.map(function(str) {
     return str.replace(/\\([\s"'\\])/g, '$1');
   });
 }
 
-function sp(c) {
+function isWhitespace(c) {
   return /\s/.test(c);
 };
 
@@ -83,15 +92,19 @@ function special(c) {
 
 function isValid(index, arr) {
   var counter = 0;
+
   while (true) {
     if (index - 1 - counter < 0) {
       break;
     }
+
     if (arr[index - 1 - counter] === '\\') {
       counter++;
       continue;
     }
+
     break;
   }
+
   return counter % 2 === 0;
 }
